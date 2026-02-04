@@ -1,14 +1,251 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My GitHub Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakshmi Unnikrishnan | Portfolio</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        h1 { color: #2ea44f; }
+        /* --- CSS STYLING --- */
+        :root {
+            --bg-color: #0f0f11;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #64ffda; /* Teal accent color */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Gradient Blob for aesthetics */
+        .background-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100,255,218,0.15) 0%, rgba(15,15,17,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px); /* Glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease;
+        }
+
+        input[type="password"] {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            margin-top: 1rem;
+            width: 200px;
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+        }
+
+        button.login-btn {
+            display: block;
+            margin: 1.5rem auto 0;
+            padding: 10px 30px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button.login-btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        /* --- PORTFOLIO CONTENT (Hidden by default) --- */
+        #main-content {
+            display: none; /* Hidden until login */
+            width: 100%;
+            max-width: 800px;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: var(--accent);
+            color: black;
+        }
+
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .grid-container { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This website is hosted on GitHub Pages.</p>
+
+    <div class="background-blob"></div>
+
+    <div id="login-screen">
+        <h2>Restricted Access</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Please enter passcode to view portfolio</p>
+        <input type="password" id="passwordInput" placeholder="Enter Password">
+        <button class="login-btn" onclick="checkPassword()">ENTER</button>
+        <p id="error-msg" style="color: #ff6b6b; font-size: 0.8rem; margin-top: 10px; opacity: 0;">Incorrect Password</p>
+    </div>
+
+    <div id="main-content">
+        <header>
+            <h1>LAKSHMI UNNIKRISHNAN</h1>
+            <div class="subtitle">Engineering Student | Portfolio</div>
+        </header>
+
+        <div class="grid-container">
+            <div class="card">
+                <h3>Curriculum Vitae</h3>
+                <p>View my professional experience, skills, and projects.</p>
+                <a href="#" class="download-btn">View CV</a>
+            </div>
+
+            <div class="card">
+                <h3>Academic Transcript</h3>
+                <p>Official records of academic performance and grades.</p>
+                <a href="#" class="download-btn">View Transcript</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Lakshmi Unnikrishnan. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const loginScreen = document.getElementById('login-screen');
+            const mainContent = document.getElementById('main-content');
+            const errorMsg = document.getElementById('error-msg');
+
+            // The password is set to '000' here
+            if (input === '000') {
+                loginScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }, 500);
+            } else {
+                errorMsg.style.opacity = '1';
+                // Shake effect for wrong password
+                loginScreen.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
+            }
+        }
+
+        // Allow pressing "Enter" key to submit
+        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+
 </body>
 </html>
