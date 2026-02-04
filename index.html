@@ -11,7 +11,7 @@
             --card-bg: rgba(255, 255, 255, 0.05);
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
-            --accent: #64ffda; /* Teal accent color */
+            --accent: #64ffda;
         }
 
         body {
@@ -24,9 +24,10 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            padding: 20px 0;
         }
 
-        /* Background Gradient Blob for aesthetics */
+        /* Background Gradient */
         .background-blob {
             position: absolute;
             width: 600px;
@@ -37,6 +38,7 @@
             transform: translate(-50%, -50%);
             z-index: -1;
             pointer-events: none;
+            position: fixed;
         }
 
         /* --- LOGIN SCREEN --- */
@@ -45,7 +47,7 @@
             background: var(--card-bg);
             padding: 3rem;
             border-radius: 16px;
-            backdrop-filter: blur(10px); /* Glass effect */
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
             transition: opacity 0.5s ease;
@@ -63,10 +65,7 @@
             width: 200px;
             text-align: center;
         }
-
-        input:focus {
-            border-color: var(--accent);
-        }
+        input:focus { border-color: var(--accent); }
 
         button.login-btn {
             display: block;
@@ -80,46 +79,52 @@
             font-weight: bold;
             transition: all 0.3s ease;
         }
+        button.login-btn:hover { background: rgba(100, 255, 218, 0.1); }
 
-        button.login-btn:hover {
-            background: rgba(100, 255, 218, 0.1);
-        }
-
-        /* --- PORTFOLIO CONTENT (Hidden by default) --- */
+        /* --- PORTFOLIO CONTENT --- */
         #main-content {
-            display: none; /* Hidden until login */
+            display: none;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             padding: 2rem;
             opacity: 0;
             animation: fadeIn 1s forwards;
         }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        header { text-align: center; margin-bottom: 3rem; }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+            margin-bottom: 1.5rem;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
+        h1 { font-size: 2.5rem; margin: 0 0 0.5rem; letter-spacing: 2px; }
+        .subtitle { color: var(--accent); font-size: 1.1rem; font-weight: 300; margin-bottom: 1.5rem; }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
+        .linkedin-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
-
-        .subtitle {
-            color: var(--accent);
-            font-size: 1.2rem;
-            font-weight: 300;
+        .linkedin-link:hover {
+            border-color: #0077b5; color: #0077b5; background: rgba(0, 119, 181, 0.1);
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
         .card {
@@ -129,50 +134,71 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s ease, border-color 0.3s ease;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card h3 { margin-top: 0; font-size: 1.3rem; }
+        .card p { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .card h3 {
-            margin-top: 0;
-            font-size: 1.5rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .download-btn {
-            text-decoration: none;
-            color: white;
+        /* Modified Button to trigger Modal */
+        .view-btn {
             background: rgba(255,255,255,0.1);
+            color: white;
             padding: 10px 20px;
+            border: none;
             border-radius: 50px;
             font-size: 0.9rem;
+            cursor: pointer;
             transition: background 0.3s;
+            margin-top: 1rem;
+            font-family: inherit;
+        }
+        .view-btn:hover { background: var(--accent); color: black; }
+
+        footer { margin-top: 4rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+
+        /* --- PDF MODAL (POPUP) --- */
+        #pdf-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
-        .download-btn:hover {
-            background: var(--accent);
-            color: black;
+        #pdf-frame {
+            width: 90%;
+            height: 80%;
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            background: white;
         }
 
-        footer {
-            margin-top: 4rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
+        .close-modal-btn {
+            margin-bottom: 15px;
+            padding: 10px 30px;
+            background: #ff5f56;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
         }
+        .close-modal-btn:hover { background: #ff3b30; }
 
-        /* Mobile Responsive */
         @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
             .grid-container { grid-template-columns: 1fr; }
-            h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -190,21 +216,43 @@
 
     <div id="main-content">
         <header>
+            <img src="profile.jpg" alt="Lakshmi Unnikrishnan" class="profile-pic" onerror="this.src='https://via.placeholder.com/150?text=No+Img'">
             <h1>LAKSHMI UNNIKRISHNAN</h1>
             <div class="subtitle">Engineering Student | Portfolio</div>
+            <a href="https://www.linkedin.com/in/YOUR-ACTUAL-LINK-HERE" target="_blank" class="linkedin-link">
+                Connect on LinkedIn &#8599;
+            </a>
         </header>
 
         <div class="grid-container">
             <div class="card">
                 <h3>Curriculum Vitae</h3>
-                <p>View my professional experience, skills, and projects.</p>
-                <a href="cv.pdf" class="download-btn" target="_blank">View CV</a>
+                <p>Professional resume, skills, and projects overview.</p>
+                <button class="view-btn" onclick="openPDF('cv.pdf')">View CV</button>
             </div>
 
             <div class="card">
                 <h3>Academic Transcript</h3>
-                <p>Official records of academic performance and grades.</p>
-                <a href="transcript.pdf" class="download-btn" target="_blank">View Transcript</a>
+                <p>Official records of engineering grades.</p>
+                <button class="view-btn" onclick="openPDF('transcript.pdf')">View Transcript</button>
+            </div>
+
+            <div class="card">
+                <h3>SSLC Certificate</h3>
+                <p>Secondary School Leaving Certificate (10th Grade).</p>
+                <button class="view-btn" onclick="openPDF('sslc.pdf')">View Document</button>
+            </div>
+
+            <div class="card">
+                <h3>12th Certificate (Part 1)</h3>
+                <p>Higher Secondary Examination Certificate.</p>
+                <button class="view-btn" onclick="openPDF('12th_cert1.pdf')">View Document</button>
+            </div>
+
+            <div class="card">
+                <h3>12th Certificate (Part 2)</h3>
+                <p>Additional Higher Secondary documents.</p>
+                <button class="view-btn" onclick="openPDF('12th_cert2.pdf')">View Document</button>
             </div>
         </div>
 
@@ -213,14 +261,19 @@
         </footer>
     </div>
 
+    <div id="pdf-modal">
+        <button class="close-modal-btn" onclick="closePDF()">&#10005; CLOSE DOCUMENT</button>
+        <iframe id="pdf-frame" src=""></iframe>
+    </div>
+
     <script>
+        // Login Logic
         function checkPassword() {
             const input = document.getElementById('passwordInput').value;
             const loginScreen = document.getElementById('login-screen');
             const mainContent = document.getElementById('main-content');
             const errorMsg = document.getElementById('error-msg');
 
-            // The password is set to '000' here
             if (input === '000') {
                 loginScreen.style.opacity = '0';
                 setTimeout(() => {
@@ -229,7 +282,6 @@
                 }, 500);
             } else {
                 errorMsg.style.opacity = '1';
-                // Shake effect for wrong password
                 loginScreen.animate([
                     { transform: 'translateX(0)' },
                     { transform: 'translateX(-10px)' },
@@ -239,13 +291,33 @@
             }
         }
 
-        // Allow pressing "Enter" key to submit
+        // PDF Modal Logic
+        function openPDF(fileName) {
+            const modal = document.getElementById('pdf-modal');
+            const frame = document.getElementById('pdf-frame');
+            
+            // Set the file source
+            frame.src = fileName;
+            
+            // Show the modal
+            modal.style.display = 'flex';
+        }
+
+        function closePDF() {
+            const modal = document.getElementById('pdf-modal');
+            const frame = document.getElementById('pdf-frame');
+            
+            // Hide modal
+            modal.style.display = 'none';
+            
+            // Clear source to stop loading/playing
+            frame.src = '';
+        }
+
+        // Enter Key for Password
         document.getElementById("passwordInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                checkPassword();
-            }
+            if (event.key === "Enter") { checkPassword(); }
         });
     </script>
-
 </body>
 </html>
